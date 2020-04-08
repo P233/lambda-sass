@@ -1,0 +1,8 @@
+@import "true";
+@import "./lambda";
+
+@include test-module("Test functions:") {
+  @include test("add") {
+    @include assert-equal(add(1, 2, 3), 6);
+  }
+}

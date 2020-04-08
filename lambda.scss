@@ -1,0 +1,9 @@
+@function add($args...) {
+  $result: 0;
+
+  @each $n in $args {
+    $result: $result + $n;
+  }
+
+  @return $result;
+}
