@@ -14,4 +14,34 @@
   @include test("dec") {
     @include assert-equal(dec(1), 0);
   }
+
+  @include test("first") {
+    @include assert-equal(first((1 2 3)), 1);
+    @include assert-equal(first([1]), 1);
+    @include assert-equal(first(()), null);
+    @include assert-equal(first(""), null);
+    @include assert-equal(first("#abc"), "#");
+
+    // @include assert-equal(first(1), 1); => [ERROR] 1 is not a list.
+  }
+
+  @include test("last") {
+    @include assert-equal(last((1 2 3)), 3);
+    @include assert-equal(last([1]), 1);
+    @include assert-equal(last(()), null);
+    @include assert-equal(last(""), null);
+    @include assert-equal(last("#abc"), "c");
+
+    // @include assert-equal(last(1), 1); => [ERROR] 1 is not a list.
+  }
+
+  @include test("rest") {
+    @include assert-equal(rest((1 2 3)), (2 3));
+    @include assert-equal(rest([1]), ());
+    @include assert-equal(rest(()), ());
+    @include assert-equal(rest(""), ());
+    @include assert-equal(rest("#abc"), ("a" "b" "c"));
+
+    // @include assert-equal(rest(1), 1); => [ERROR] 1 is not a list.
+  }
 }

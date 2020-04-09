@@ -1,3 +1,7 @@
+@use "sass:list";
+@use "sass:meta";
+@use "sass:string";
+
 @function add($init, $args...) {
   $result: $init;
 
@@ -14,4 +18,78 @@
 
 @function dec($n) {
   @return $n - 1;
+}
+
+@function first($value) {
+  $_type: meta.type-of($value);
+
+  @if $_type == list {
+    @if list.length($value) == 0 {
+      @return null;
+    }
+
+    @return list.nth($value, 1);
+  } @else if $_type == string {
+    @if string.length($value) == 0 {
+      @return null;
+    }
+
+    @return string.slice($value, 1, 1);
+  } @else {
+    @error "#{$value} is not a list.";
+  }
+}
+
+@function last($value) {
+  $_type: meta.type-of($value);
+
+  @if $_type == list {
+    @if list.length($value) == 0 {
+      @return null;
+    }
+
+    @return list.nth($value, -1);
+  } @else if $_type == string {
+    @if string.length($value) == 0 {
+      @return null;
+    }
+
+    @return string.slice($value, -1);
+  } @else {
+    @error "#{$value} is not a list.";
+  }
+}
+
+@function rest($value) {
+  $_type: meta.type-of($value);
+
+  @if $_type == list {
+    $result: ();
+    $_length: list.length($value);
+
+    @if $_length < 2 {
+      @return ();
+    }
+
+    @for $i from 2 through $_length {
+      $result: list.append($result, list.nth($value, $i));
+    }
+
+    @return if($result, $result, ());
+  } @else if $_type == string {
+    $result: ();
+    $_length: string.length($value);
+
+    @if $_length < 2 {
+      @return ();
+    }
+
+    @for $i from 2 through $_length {
+      $result: list.append($result, string.slice($value, $i, $i));
+    }
+
+    @return if($result, $result, ());
+  } @else {
+    @error "#{$value} is not a list.";
+  }
 }
