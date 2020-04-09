@@ -6,4 +6,12 @@
     @include assert-equal(add(1, 2, 3), 6);
     @include assert-equal(add("#", "a", "b", "c"), "#abc");
   }
+
+  @include test("inc") {
+    @include assert-equal(inc(1), 2);
+  }
+
+  @include test("dec") {
+    @include assert-equal(dec(1), 0);
+  }
 }
