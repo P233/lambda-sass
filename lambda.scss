@@ -1,8 +1,8 @@
-@function add($args...) {
-  $result: 0;
+@function add($init, $args...) {
+  $result: $init;
 
-  @each $n in $args {
-    $result: $result + $n;
+  @each $v in $args {
+    $result: $result + $v;
   }
 
   @return $result;
