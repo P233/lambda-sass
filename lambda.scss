@@ -150,3 +150,17 @@
     @error "#{$value} is not a list.";
   }
 }
+
+// -------------------- //
+//  Iterator functions  //
+// -------------------- //
+
+@function map($fn, $list) {
+  $result: ();
+
+  @each $i in $list {
+    $result: list.append($result, _auto-call($fn, $i));
+  }
+
+  @return $result;
+}

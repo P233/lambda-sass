@@ -73,4 +73,12 @@
 
     // @include assert-equal(rest(1), 1); => [ERROR] 1 is not a list.
   }
+
+  @include test-module("Test iterator functions:") {
+    @include test("map") {
+      @include assert-equal(map(inc, [1 2 3]), (2 3 4));
+      @include assert-equal(map((add 1 _), [1 2 3]), (2 3 4));
+      @include assert-equal(map(first, [[1] [2] [3]]), (1 2 3));
+    }
+  }
 }
