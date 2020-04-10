@@ -1,7 +1,34 @@
 @import "true";
 @import "./lambda";
 
-@include test-module("Test functions:") {
+@include test-module("Test helper functions:") {
+  @include test("_replace-args") {
+    @include assert-equal(_replace-args((_ _), [1]), (1 1));
+    @include assert-equal(_replace-args((_2 _1), ("a" "b")), ("b" "a"));
+    @include assert-equal(_replace-args((_2 _1), ("a" "b" "c")), ("b" "a"));
+
+    // [TODO] `_replace-args((_2 _1), [ "a" ])` should return error
+  }
+
+  @include test("_call-fn") {
+    @include assert-equal(_call-fn("inc", 1), 2);
+    @include assert-equal(_call-fn("add", 1, 2, 3), 6);
+  }
+
+  @include test("_call-lambda") {
+    @include assert-equal(_call-lambda((add _ 10), 1), 11);
+    @include assert-equal(_call-lambda((add _1 _2), 1, 2), 3);
+  }
+
+  @include test("_auto-call") {
+    @include assert-equal(_auto-call("inc", 1), 2);
+    @include assert-equal(_auto-call("add", 1, 2, 3), 6);
+    @include assert-equal(_auto-call((add _ 10), 1), 11);
+    @include assert-equal(_auto-call((add _1 _2), 1, 2), 3);
+  }
+}
+
+@include test-module("Test math functions:") {
   @include test("add") {
     @include assert-equal(add(1, 2, 3), 6);
     @include assert-equal(add("#", "a", "b", "c"), "#abc");
@@ -14,7 +41,9 @@
   @include test("dec") {
     @include assert-equal(dec(1), 0);
   }
+}
 
+@include test-module("Test list functions:") {
   @include test("first") {
     @include assert-equal(first((1 2 3)), 1);
     @include assert-equal(first([1]), 1);

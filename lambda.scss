@@ -2,6 +2,59 @@
 @use "sass:meta";
 @use "sass:string";
 
+// ------------------ //
+//  Helper functions  //
+// ------------------ //
+
+@function _replace-args($args, $values) {
+  @for $i from 1 through list.length($values) {
+    @if $i == 1 {
+      $index: list.index($args, _) or list.index($args, _1);
+
+      @while $index != null {
+        $args: list.set-nth($args, $index, list.nth($values, 1));
+        $index: list.index($args, _) or list.index($args, _1);
+      }
+    } @else {
+      $index: list.index($args, _#{$i});
+
+      @while $index != null {
+        $args: list.set-nth($args, $index, list.nth($values, $i));
+        $index: list.index($args, _#{$i});
+      }
+    }
+  }
+
+  @return $args;
+}
+
+@function _call-fn($fn, $args...) {
+  @return meta.call(meta.get-function($fn), $args...);
+}
+
+@function _call-lambda($lambda, $args...) {
+  $fn: first($lambda);
+  $lambda-args: _replace-args(rest($lambda), $args);
+
+  @return meta.call(meta.get-function($fn), $lambda-args...);
+}
+
+@function _auto-call($fn, $args...) {
+  $type: meta.type-of($fn);
+
+  @if $type == string {
+    @return _call-fn($fn, $args...);
+  } @else if $type == list {
+    @return _call-lambda($fn, $args...);
+  } @else {
+    @error "#{$fn} is not a function.";
+  }
+}
+
+// ---------------- //
+//  Math functions  //
+// ---------------- //
+
 @function add($init, $args...) {
   $result: $init;
 
@@ -19,6 +72,10 @@
 @function dec($n) {
   @return $n - 1;
 }
+
+// ---------------- //
+//  List functions  //
+// ---------------- //
 
 @function first($value) {
   $_type: meta.type-of($value);
