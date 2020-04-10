@@ -164,3 +164,13 @@
 
   @return $result;
 }
+
+@function reduce($fn, $init, $list) {
+  $result: $init;
+
+  @each $i in $list {
+    $result: _auto-call($fn, $result, $i);
+  }
+
+  @return $result;
+}
