@@ -218,6 +218,30 @@
   @return $result;
 }
 
+@function some($fn, $list) {
+  $counter: 0;
+
+  @each $i in $list {
+    @if _auto-call($fn, $i) {
+      $counter: $counter + 1;
+    }
+  }
+
+  @return $counter > 0;
+}
+
+@function every($fn, $list) {
+  $counter: 0;
+
+  @each $i in $list {
+    @if _auto-call($fn, $i) {
+      $counter: $counter + 1;
+    }
+  }
+
+  @return $counter == list.length($list);
+}
+
 @function thread-as($value, $fn-list...) {
   @return _thread("AS", $value, $fn-list...);
 }
