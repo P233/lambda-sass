@@ -51,6 +51,33 @@
   }
 }
 
+@function _thread($position, $value, $fn-list...) {
+  $result: $value;
+
+  @each $i in $fn-list {
+    $type: meta.type-of($i);
+
+    @if $type == string {
+      $result: _call-fn($i, $result);
+    } @else if $type == list {
+      $fn: first($i);
+      $args: rest($i);
+
+      @if $position == "FIRST" {
+        $result: _call-fn($fn, $result, $args...);
+      } @else if $position == "LAST" {
+        $result: _call-fn($fn, $args..., $result);
+      } @else {
+        $result: _call-lambda($i, $result);
+      }
+    } @else {
+      @error "#{$i} is not a function.";
+    }
+  }
+
+  @return $result;
+}
+
 // ---------------- //
 //  Math functions  //
 // ---------------- //
@@ -78,15 +105,15 @@
 // ---------------- //
 
 @function first($value) {
-  $_type: meta.type-of($value);
+  $type: meta.type-of($value);
 
-  @if $_type == list {
+  @if $type == list {
     @if list.length($value) == 0 {
       @return null;
     }
 
     @return list.nth($value, 1);
-  } @else if $_type == string {
+  } @else if $type == string {
     @if string.length($value) == 0 {
       @return null;
     }
@@ -98,15 +125,15 @@
 }
 
 @function last($value) {
-  $_type: meta.type-of($value);
+  $type: meta.type-of($value);
 
-  @if $_type == list {
+  @if $type == list {
     @if list.length($value) == 0 {
       @return null;
     }
 
     @return list.nth($value, -1);
-  } @else if $_type == string {
+  } @else if $type == string {
     @if string.length($value) == 0 {
       @return null;
     }
@@ -118,30 +145,30 @@
 }
 
 @function rest($value) {
-  $_type: meta.type-of($value);
+  $type: meta.type-of($value);
 
-  @if $_type == list {
+  @if $type == list {
     $result: ();
-    $_length: list.length($value);
+    $length: list.length($value);
 
-    @if $_length < 2 {
+    @if $length < 2 {
       @return ();
     }
 
-    @for $i from 2 through $_length {
+    @for $i from 2 through $length {
       $result: list.append($result, list.nth($value, $i));
     }
 
     @return if($result, $result, ());
-  } @else if $_type == string {
+  } @else if $type == string {
     $result: ();
-    $_length: string.length($value);
+    $length: string.length($value);
 
-    @if $_length < 2 {
+    @if $length < 2 {
       @return ();
     }
 
-    @for $i from 2 through $_length {
+    @for $i from 2 through $length {
       $result: list.append($result, string.slice($value, $i, $i));
     }
 
@@ -173,4 +200,16 @@
   }
 
   @return $result;
+}
+
+@function thread-as($value, $fn-list...) {
+  @return _thread("AS", $value, $fn-list...);
+}
+
+@function thread-first($value, $fn-list...) {
+  @return _thread("FIRST", $value, $fn-list...);
+}
+
+@function thread-last($value, $fn-list...) {
+  @return _thread("LAST", $value, $fn-list...);
 }

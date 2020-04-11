@@ -89,4 +89,16 @@
       "#aabbcc"
     );
   }
+
+  @include test("thread-as") {
+    @include assert-equal(thread-as(1, inc, (add 10 _ 5), inc, dec), 17);
+  }
+
+  @include test("thread-first") {
+    @include assert-equal(thread-first(1, inc, (add 10 5), inc, dec), 17);
+  }
+
+  @include test("thread-last") {
+    @include assert-equal(thread-last(1, inc, (add 10 5), inc, dec), 17);
+  }
 }
