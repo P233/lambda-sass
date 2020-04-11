@@ -41,6 +41,22 @@
   @include test("dec") {
     @include assert-equal(dec(1), 0);
   }
+
+  @include test("odd") {
+    @include assert-equal(odd(2), false);
+    @include assert-equal(odd(1), true);
+    @include assert-equal(odd(0), false);
+    @include assert-equal(odd(-1), true);
+    @include assert-equal(odd(-2), false);
+  }
+
+  @include test("even") {
+    @include assert-equal(even(2), true);
+    @include assert-equal(even(1), false);
+    @include assert-equal(even(0), true);
+    @include assert-equal(even(-1), false);
+    @include assert-equal(even(-2), true);
+  }
 }
 
 @include test-module("Test list functions:") {
