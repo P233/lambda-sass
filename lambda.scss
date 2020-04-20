@@ -167,12 +167,10 @@
     $result: ();
     $length: list.length($value);
 
-    @if $length < 2 {
-      @return ();
-    }
-
-    @for $i from 2 through $length {
-      $result: list.append($result, list.nth($value, $i));
+    @if $length >= 2 {
+      @for $i from 2 through $length {
+        $result: list.append($result, list.nth($value, $i));
+      }
     }
 
     @return if($result, $result, ());
@@ -180,12 +178,10 @@
     $result: ();
     $length: string.length($value);
 
-    @if $length < 2 {
-      @return ();
-    }
-
-    @for $i from 2 through $length {
-      $result: list.append($result, string.slice($value, $i, $i));
+    @if $length >= 2 {
+      @for $i from 2 through $length {
+        $result: list.append($result, string.slice($value, $i, $i));
+      }
     }
 
     @return if($result, $result, ());
