@@ -214,6 +214,18 @@
   @return $result;
 }
 
+@function filter($fn, $list) {
+  $result: ();
+
+  @each $i in $list {
+    @if _auto-call($fn, $i) {
+      $result: list.append($result, $i);
+    }
+  }
+
+  @return $result;
+}
+
 @function reduce($fn, $init, $list) {
   $result: $init;
 
