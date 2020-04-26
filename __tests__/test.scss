@@ -89,6 +89,10 @@
 
     // @include assert-equal(rest(1), 1); => [ERROR] 1 is not a list.
   }
+
+  @include test("reverse") {
+    @include assert-equal(reverse((1 2 3 4 5)), (5 4 3 2 1));
+  }
 }
 
 @include test-module("Test iterator functions:") {

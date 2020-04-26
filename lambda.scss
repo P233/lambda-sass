@@ -190,6 +190,16 @@
   }
 }
 
+@function reverse($list) {
+  $result: ();
+
+  @for $i from list.length($list) through 1 {
+    $result: list.append($result, list.nth($list, $i));
+  }
+
+  @return $result;
+}
+
 // -------------------- //
 //  Iterator functions  //
 // -------------------- //
