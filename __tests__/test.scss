@@ -57,6 +57,29 @@
     @include assert-equal(even(-1), false);
     @include assert-equal(even(-2), true);
   }
+
+  @include test("greater") {
+    @include assert-equal(greater(1), true);
+    @include assert-equal(greater(2, 1), true);
+    @include assert-equal(greater(1, 2), false);
+    @include assert-equal(greater(4, 3, 2, 1), true);
+    @include assert-equal(greater(4, 2, 3, 1), false);
+  }
+
+  @include test("less") {
+    @include assert-equal(less(1), true);
+    @include assert-equal(less(1, 2), true);
+    @include assert-equal(less(2, 1), false);
+    @include assert-equal(less(1, 2, 3, 4), true);
+    @include assert-equal(less(1, 3, 2, 4), false);
+  }
+
+  @include test("equal") {
+    @include assert-equal(equal(1), true);
+    @include assert-equal(equal(1, 1), true);
+    @include assert-equal(equal("a", "a", 1), false);
+    @include assert-equal(equal("a", "a", "a"), true);
+  }
 }
 
 @include test-module("Test list functions:") {
@@ -104,6 +127,7 @@
 
   @include test("filter") {
     @include assert-equal(filter(odd, [1 2 3]), (1 3));
+    @include assert-equal(filter((greater _ 1), [1 2 3]), (2 3));
   }
 
   @include test("reduce") {
