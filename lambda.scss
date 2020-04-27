@@ -51,6 +51,14 @@
   }
 }
 
+@function _arglist($args) {
+  @if list.length($args) == 1 and meta.type-of(list.nth($args, 1)) == list {
+    @return list.nth($args, 1);
+  } @else {
+    @return $args;
+  }
+}
+
 @function _thread($position, $value, $fn-list...) {
   $result: $value;
 
@@ -82,11 +90,12 @@
 //  Math functions  //
 // ---------------- //
 
-@function add($init, $args...) {
-  $result: $init;
+@function add($list...) {
+  $list: _arglist($list);
+  $result: list.nth($list, 1);
 
-  @each $v in $args {
-    $result: $result + $v;
+  @for $i from 2 through list.length($list) {
+    $result: $result + list.nth($list, $i);
   }
 
   @return $result;
@@ -117,6 +126,8 @@
 }
 
 @function greater($list...) {
+  $list: _arglist($list);
+
   @if list.length($list) > 1 {
     @for $i from 2 through list.length($list) {
       @if list.nth($list, $i) >= list.nth($list, $i - 1) {
@@ -129,6 +140,8 @@
 }
 
 @function less($list...) {
+  $list: _arglist($list);
+
   @if list.length($list) > 1 {
     @for $i from 2 through list.length($list) {
       @if list.nth($list, $i) <= list.nth($list, $i - 1) {
@@ -141,6 +154,8 @@
 }
 
 @function equal($list...) {
+  $list: _arglist($list);
+
   @if list.length($list) > 1 {
     @for $i from 2 through list.length($list) {
       @if list.nth($list, $i) != list.nth($list, $i - 1) {
@@ -160,11 +175,13 @@
   $type: meta.type-of($value);
 
   @if $type == list {
-    @if list.length($value) == 0 {
+    $list: _arglist($value);
+
+    @if list.length($list) == 0 {
       @return null;
     }
 
-    @return list.nth($value, 1);
+    @return list.nth($list, 1);
   } @else if $type == string {
     @if string.length($value) == 0 {
       @return null;
@@ -180,11 +197,13 @@
   $type: meta.type-of($value);
 
   @if $type == list {
-    @if list.length($value) == 0 {
+    $list: _arglist($value);
+
+    @if list.length($list) == 0 {
       @return null;
     }
 
-    @return list.nth($value, -1);
+    @return list.nth($list, -1);
   } @else if $type == string {
     @if string.length($value) == 0 {
       @return null;
@@ -201,11 +220,12 @@
 
   @if $type == list {
     $result: ();
-    $length: list.length($value);
+    $list: _arglist($value);
+    $length: list.length($list);
 
     @if $length >= 2 {
       @for $i from 2 through $length {
-        $result: list.append($result, list.nth($value, $i));
+        $result: list.append($result, list.nth($list, $i));
       }
     }
 
@@ -226,7 +246,8 @@
   }
 }
 
-@function reverse($list) {
+@function reverse($list...) {
+  $list: _arglist($list);
   $result: ();
 
   @for $i from list.length($list) through 1 {
@@ -240,7 +261,8 @@
 //  Iterator functions  //
 // -------------------- //
 
-@function map($fn, $list) {
+@function map($fn, $list...) {
+  $list: _arglist($list);
   $result: ();
 
   @each $i in $list {
@@ -250,7 +272,8 @@
   @return $result;
 }
 
-@function filter($fn, $list) {
+@function filter($fn, $list...) {
+  $list: _arglist($list);
   $result: ();
 
   @each $i in $list {
@@ -262,7 +285,8 @@
   @return $result;
 }
 
-@function reduce($fn, $init, $list) {
+@function reduce($fn, $init, $list...) {
+  $list: _arglist($list);
   $result: $init;
 
   @each $i in $list {
@@ -272,7 +296,8 @@
   @return $result;
 }
 
-@function some($fn, $list) {
+@function some($fn, $list...) {
+  $list: _arglist($list);
   $counter: 0;
 
   @each $i in $list {
@@ -284,7 +309,8 @@
   @return $counter > 0;
 }
 
-@function every($fn, $list) {
+@function every($fn, $list...) {
+  $list: _arglist($list);
   $counter: 0;
 
   @each $i in $list {

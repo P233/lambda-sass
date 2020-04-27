@@ -30,6 +30,8 @@
 
 @include test-module("Test math functions:") {
   @include test("add") {
+    @include assert-equal(add([1, 2, 3]), 6);
+    @include assert-equal(add([ "#", "a", "b", "c" ]), "#abc");
     @include assert-equal(add(1, 2, 3), 6);
     @include assert-equal(add("#", "a", "b", "c"), "#abc");
   }
@@ -59,6 +61,11 @@
   }
 
   @include test("greater") {
+    @include assert-equal(greater([1]), true);
+    @include assert-equal(greater([2, 1]), true);
+    @include assert-equal(greater([1, 2]), false);
+    @include assert-equal(greater([4, 3, 2, 1]), true);
+    @include assert-equal(greater([4, 2, 3, 1]), false);
     @include assert-equal(greater(1), true);
     @include assert-equal(greater(2, 1), true);
     @include assert-equal(greater(1, 2), false);
@@ -67,6 +74,11 @@
   }
 
   @include test("less") {
+    @include assert-equal(less([1]), true);
+    @include assert-equal(less([1, 2]), true);
+    @include assert-equal(less([2, 1]), false);
+    @include assert-equal(less([1, 2, 3, 4]), true);
+    @include assert-equal(less([1, 3, 2, 4]), false);
     @include assert-equal(less(1), true);
     @include assert-equal(less(1, 2), true);
     @include assert-equal(less(2, 1), false);
@@ -75,6 +87,10 @@
   }
 
   @include test("equal") {
+    @include assert-equal(equal([1]), true);
+    @include assert-equal(equal([1, 1]), true);
+    @include assert-equal(equal([ "a", "a", 1]), false);
+    @include assert-equal(equal([ "a", "a", "a" ]), true);
     @include assert-equal(equal(1), true);
     @include assert-equal(equal(1, 1), true);
     @include assert-equal(equal("a", "a", 1), false);
@@ -89,8 +105,6 @@
     @include assert-equal(first(()), null);
     @include assert-equal(first(""), null);
     @include assert-equal(first("#abc"), "#");
-
-    // @include assert-equal(first(1), 1); => [ERROR] 1 is not a list.
   }
 
   @include test("last") {
@@ -99,8 +113,6 @@
     @include assert-equal(last(()), null);
     @include assert-equal(last(""), null);
     @include assert-equal(last("#abc"), "c");
-
-    // @include assert-equal(last(1), 1); => [ERROR] 1 is not a list.
   }
 
   @include test("rest") {
@@ -109,12 +121,11 @@
     @include assert-equal(rest(()), ());
     @include assert-equal(rest(""), ());
     @include assert-equal(rest("#abc"), ("a" "b" "c"));
-
-    // @include assert-equal(rest(1), 1); => [ERROR] 1 is not a list.
   }
 
   @include test("reverse") {
     @include assert-equal(reverse((1 2 3 4 5)), (5 4 3 2 1));
+    @include assert-equal(reverse(1, 2, 3, 4, 5), (5 4 3 2 1));
   }
 }
 
@@ -123,11 +134,16 @@
     @include assert-equal(map(inc, [1 2 3]), (2 3 4));
     @include assert-equal(map((add 1 _), [1 2 3]), (2 3 4));
     @include assert-equal(map(first, [[1] [2] [3]]), (1 2 3));
+    @include assert-equal(map(inc, 1, 2, 3), (2 3 4));
+    @include assert-equal(map((add 1 _), 1, 2, 3), (2 3 4));
+    @include assert-equal(map(first, [1], [2], [3]), (1 2 3));
   }
 
   @include test("filter") {
     @include assert-equal(filter(odd, [1 2 3]), (1 3));
     @include assert-equal(filter((greater _ 1), [1 2 3]), (2 3));
+    @include assert-equal(filter(odd, 1, 2, 3), (1 3));
+    @include assert-equal(filter((greater _ 1), 1, 2, 3), (2 3));
   }
 
   @include test("reduce") {
@@ -136,16 +152,25 @@
       reduce((add _1 _2 _2), "#", [ "a", "b", "c" ]),
       "#aabbcc"
     );
+    @include assert-equal(reduce((add _1 _2), 0, 1, 2, 3), 6);
+    @include assert-equal(
+      reduce((add _1 _2 _2), "#", "a", "b", "c"),
+      "#aabbcc"
+    );
   }
 
   @include test("some") {
     @include assert-equal(some(even, [-1 0 12]), true);
     @include assert-equal(some(even, [-1 3 11]), false);
+    @include assert-equal(some(even, -1, 0, 12), true);
+    @include assert-equal(some(even, -1, 3, 11), false);
   }
 
   @include test("every") {
     @include assert-equal(every(odd, [-1 3 9]), true);
     @include assert-equal(every(odd, [-1 0 9]), false);
+    @include assert-equal(every(odd, -1, 3, 9), true);
+    @include assert-equal(every(odd, -1, 0, 9), false);
   }
 
   @include test("thread-as") {
