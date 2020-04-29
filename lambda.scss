@@ -59,33 +59,6 @@
   }
 }
 
-@function _thread($position, $value, $fn-list...) {
-  $result: $value;
-
-  @each $i in $fn-list {
-    $type: meta.type-of($i);
-
-    @if $type == string {
-      $result: _call-fn($i, $result);
-    } @else if $type == list {
-      $fn: first($i);
-      $args: rest($i);
-
-      @if $position == "FIRST" {
-        $result: _call-fn($fn, $result, $args...);
-      } @else if $position == "LAST" {
-        $result: _call-fn($fn, $args..., $result);
-      } @else {
-        $result: _call-lambda($i, $result);
-      }
-    } @else {
-      @error "#{$i} is not a function.";
-    }
-  }
-
-  @return $result;
-}
-
 // ---------------- //
 //  Math functions  //
 // ---------------- //
@@ -348,6 +321,37 @@
   }
 
   @return $counter == list.length($list);
+}
+
+// ------------------ //
+//  Thread functions  //
+// ------------------ //
+
+@function _thread($position, $value, $fn-list...) {
+  $result: $value;
+
+  @each $i in $fn-list {
+    $type: meta.type-of($i);
+
+    @if $type == string {
+      $result: _call-fn($i, $result);
+    } @else if $type == list {
+      $fn: first($i);
+      $args: rest($i);
+
+      @if $position == "FIRST" {
+        $result: _call-fn($fn, $result, $args...);
+      } @else if $position == "LAST" {
+        $result: _call-fn($fn, $args..., $result);
+      } @else {
+        $result: _call-lambda($i, $result);
+      }
+    } @else {
+      @error "#{$i} is not a function.";
+    }
+  }
+
+  @return $result;
 }
 
 @function thread-as($value, $fn-list...) {
