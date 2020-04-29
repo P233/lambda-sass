@@ -139,12 +139,40 @@
   @return true;
 }
 
+@function greater-equal($list...) {
+  $list: _arglist($list);
+
+  @if list.length($list) > 1 {
+    @for $i from 2 through list.length($list) {
+      @if list.nth($list, $i) > list.nth($list, $i - 1) {
+        @return false;
+      }
+    }
+  }
+
+  @return true;
+}
+
 @function less($list...) {
   $list: _arglist($list);
 
   @if list.length($list) > 1 {
     @for $i from 2 through list.length($list) {
       @if list.nth($list, $i) <= list.nth($list, $i - 1) {
+        @return false;
+      }
+    }
+  }
+
+  @return true;
+}
+
+@function less-equal($list...) {
+  $list: _arglist($list);
+
+  @if list.length($list) > 1 {
+    @for $i from 2 through list.length($list) {
+      @if list.nth($list, $i) < list.nth($list, $i - 1) {
         @return false;
       }
     }

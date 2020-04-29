@@ -73,6 +73,19 @@
     @include assert-equal(greater(4, 2, 3, 1), false);
   }
 
+  @include test("greater-equal") {
+    @include assert-equal(greater-equal([1]), true);
+    @include assert-equal(greater-equal([2, 1]), true);
+    @include assert-equal(greater-equal([2, 2]), true);
+    @include assert-equal(greater-equal([4, 3, 3, 1]), true);
+    @include assert-equal(greater-equal([4, 2, 3, 1]), false);
+    @include assert-equal(greater-equal(1), true);
+    @include assert-equal(greater-equal(2, 1), true);
+    @include assert-equal(greater-equal(2, 2), true);
+    @include assert-equal(greater-equal(4, 3, 3, 1), true);
+    @include assert-equal(greater-equal(4, 2, 3, 1), false);
+  }
+
   @include test("less") {
     @include assert-equal(less([1]), true);
     @include assert-equal(less([1, 2]), true);
@@ -84,6 +97,19 @@
     @include assert-equal(less(2, 1), false);
     @include assert-equal(less(1, 2, 3, 4), true);
     @include assert-equal(less(1, 3, 2, 4), false);
+  }
+
+  @include test("less-equal") {
+    @include assert-equal(less-equal([1]), true);
+    @include assert-equal(less-equal([1, 2]), true);
+    @include assert-equal(less-equal([2, 2]), true);
+    @include assert-equal(less-equal([1, 2, 2, 4]), true);
+    @include assert-equal(less-equal([1, 3, 2, 4]), false);
+    @include assert-equal(less-equal(1), true);
+    @include assert-equal(less-equal(1, 2), true);
+    @include assert-equal(less-equal(2, 2), true);
+    @include assert-equal(less-equal(1, 2, 2, 4), true);
+    @include assert-equal(less-equal(1, 3, 2, 4), false);
   }
 
   @include test("equal") {
