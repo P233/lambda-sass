@@ -45,5 +45,8 @@
       "stylelint --fix",
       "prettier --write"
     ]
-  }
+  },
+  "files": [
+    "sliver.scss"
+  ]
 }
