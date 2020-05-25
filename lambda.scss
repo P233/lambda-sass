@@ -1,5 +1,9 @@
+@use "sass:color";
 @use "sass:list";
+@use "sass:map";
+@use "sass:math";
 @use "sass:meta";
+@use "sass:selector";
 @use "sass:string";
 
 // ------------------ //
@@ -28,15 +32,28 @@
   @return $args;
 }
 
+@function __get-function($fn) {
+  $_dot-index: string.index($fn, ".");
+
+  @if $_dot-index {
+    $_module: string.slice($fn, 1, $_dot-index - 1);
+    $_fn: string.slice($fn, $_dot-index + 1, -1);
+
+    @return meta.get-function($_fn, false, $_module); // not css function
+  } @else {
+    @return meta.get-function($fn);
+  }
+}
+
 @function __call-fn($fn, $args...) {
-  @return meta.call(meta.get-function($fn), $args...);
+  @return meta.call(__get-function($fn), $args...);
 }
 
 @function __call-lambda($lambda, $args...) {
   $_fn: first($lambda);
   $_lambda-args: __replace-args(rest($lambda), $args);
 
-  @return meta.call(meta.get-function($_fn), $_lambda-args...);
+  @return meta.call(__get-function($_fn), $_lambda-args...);
 }
 
 @function __auto-call($fn, $args...) {

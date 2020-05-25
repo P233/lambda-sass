@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "sass:meta";
+
 @import "true";
 @import "./lambda";
 
@@ -8,6 +11,19 @@
     @include assert-equal(__replace-args((_2 _1), ("a" "b" "c")), ("b" "a"));
 
     // [TODO] `_replace-args((_2 _1), [ "a" ])` should return error
+  }
+
+  @include test("__get-function") {
+    @include assert-equal(meta.type-of(__get-function("map-get")), "function");
+    @include assert-equal(
+      __get-function("map-get"),
+      meta.get-function("map-get")
+    );
+    @include assert-equal(meta.type-of(__get-function("map.get")), "function");
+    @include assert-equal(
+      __get-function("map.get"),
+      meta.get-function("get", false, "map")
+    );
   }
 
   @include test("__call-fn") {
