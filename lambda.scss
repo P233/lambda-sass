@@ -6,21 +6,21 @@
 //  Helper functions  //
 // ------------------ //
 
-@function _replace-args($args, $values) {
-  @for $i from 1 through list.length($values) {
-    @if $i == 1 {
-      $index: list.index($args, _) or list.index($args, _1);
+@function __replace-args($args, $values) {
+  @for $_i from 1 through list.length($values) {
+    @if $_i == 1 {
+      $_index: list.index($args, _) or list.index($args, _1);
 
-      @while $index != null {
-        $args: list.set-nth($args, $index, list.nth($values, 1));
-        $index: list.index($args, _) or list.index($args, _1);
+      @while $_index != null {
+        $args: list.set-nth($args, $_index, list.nth($values, 1));
+        $_index: list.index($args, _) or list.index($args, _1);
       }
     } @else {
-      $index: list.index($args, _#{$i});
+      $_index: list.index($args, _#{$_i});
 
-      @while $index != null {
-        $args: list.set-nth($args, $index, list.nth($values, $i));
-        $index: list.index($args, _#{$i});
+      @while $_index != null {
+        $args: list.set-nth($args, $_index, list.nth($values, $_i));
+        $_index: list.index($args, _#{$_i});
       }
     }
   }
@@ -28,30 +28,30 @@
   @return $args;
 }
 
-@function _call-fn($fn, $args...) {
+@function __call-fn($fn, $args...) {
   @return meta.call(meta.get-function($fn), $args...);
 }
 
-@function _call-lambda($lambda, $args...) {
-  $fn: first($lambda);
-  $lambda-args: _replace-args(rest($lambda), $args);
+@function __call-lambda($lambda, $args...) {
+  $_fn: first($lambda);
+  $_lambda-args: __replace-args(rest($lambda), $args);
 
-  @return meta.call(meta.get-function($fn), $lambda-args...);
+  @return meta.call(meta.get-function($_fn), $_lambda-args...);
 }
 
-@function _auto-call($fn, $args...) {
-  $type: meta.type-of($fn);
+@function __auto-call($fn, $args...) {
+  $_type: meta.type-of($fn);
 
-  @if $type == string {
-    @return _call-fn($fn, $args...);
-  } @else if $type == list {
-    @return _call-lambda($fn, $args...);
+  @if $_type == string {
+    @return __call-fn($fn, $args...);
+  } @else if $_type == list {
+    @return __call-lambda($fn, $args...);
   } @else {
     @error "#{$fn} is not a function.";
   }
 }
 
-@function _arglist($args) {
+@function __arglist($args) {
   @if list.length($args) == 1 and meta.type-of(list.nth($args, 1)) == list {
     @return list.nth($args, 1);
   } @else {
@@ -64,14 +64,14 @@
 // ---------------- //
 
 @function add($list...) {
-  $list: _arglist($list);
-  $result: list.nth($list, 1);
+  $_list: __arglist($list);
+  $_result: list.nth($_list, 1);
 
-  @for $i from 2 through list.length($list) {
-    $result: $result + list.nth($list, $i);
+  @for $_i from 2 through list.length($_list) {
+    $_result: $_result + list.nth($_list, $_i);
   }
 
-  @return $result;
+  @return $_result;
 }
 
 @function inc($n) {
@@ -99,11 +99,11 @@
 }
 
 @function greater($list...) {
-  $list: _arglist($list);
+  $_list: __arglist($list);
 
-  @if list.length($list) > 1 {
-    @for $i from 2 through list.length($list) {
-      @if list.nth($list, $i) >= list.nth($list, $i - 1) {
+  @if list.length($_list) > 1 {
+    @for $_i from 2 through list.length($_list) {
+      @if list.nth($_list, $_i) >= list.nth($_list, $_i - 1) {
         @return false;
       }
     }
@@ -113,11 +113,11 @@
 }
 
 @function greater-equal($list...) {
-  $list: _arglist($list);
+  $_list: __arglist($list);
 
-  @if list.length($list) > 1 {
-    @for $i from 2 through list.length($list) {
-      @if list.nth($list, $i) > list.nth($list, $i - 1) {
+  @if list.length($_list) > 1 {
+    @for $_i from 2 through list.length($_list) {
+      @if list.nth($_list, $_i) > list.nth($_list, $_i - 1) {
         @return false;
       }
     }
@@ -127,11 +127,11 @@
 }
 
 @function less($list...) {
-  $list: _arglist($list);
+  $_list: __arglist($list);
 
-  @if list.length($list) > 1 {
-    @for $i from 2 through list.length($list) {
-      @if list.nth($list, $i) <= list.nth($list, $i - 1) {
+  @if list.length($_list) > 1 {
+    @for $_i from 2 through list.length($_list) {
+      @if list.nth($_list, $_i) <= list.nth($_list, $_i - 1) {
         @return false;
       }
     }
@@ -141,11 +141,11 @@
 }
 
 @function less-equal($list...) {
-  $list: _arglist($list);
+  $_list: __arglist($list);
 
-  @if list.length($list) > 1 {
-    @for $i from 2 through list.length($list) {
-      @if list.nth($list, $i) < list.nth($list, $i - 1) {
+  @if list.length($_list) > 1 {
+    @for $_i from 2 through list.length($_list) {
+      @if list.nth($_list, $_i) < list.nth($_list, $_i - 1) {
         @return false;
       }
     }
@@ -155,11 +155,11 @@
 }
 
 @function equal($list...) {
-  $list: _arglist($list);
+  $_list: __arglist($list);
 
-  @if list.length($list) > 1 {
-    @for $i from 2 through list.length($list) {
-      @if list.nth($list, $i) != list.nth($list, $i - 1) {
+  @if list.length($_list) > 1 {
+    @for $_i from 2 through list.length($_list) {
+      @if list.nth($_list, $_i) != list.nth($_list, $_i - 1) {
         @return false;
       }
     }
@@ -173,15 +173,15 @@
 // ---------------- //
 
 @function first($value) {
-  $type: meta.type-of($value);
+  $_type: meta.type-of($value);
 
-  @if $type == list {
+  @if $_type == list {
     @if list.length($value) == 0 {
       @return null;
     }
 
     @return list.nth($value, 1);
-  } @else if $type == string {
+  } @else if $_type == string {
     @if string.length($value) == 0 {
       @return null;
     }
@@ -193,15 +193,15 @@
 }
 
 @function last($value) {
-  $type: meta.type-of($value);
+  $_type: meta.type-of($value);
 
-  @if $type == list {
+  @if $_type == list {
     @if list.length($value) == 0 {
       @return null;
     }
 
     @return list.nth($value, -1);
-  } @else if $type == string {
+  } @else if $_type == string {
     @if string.length($value) == 0 {
       @return null;
     }
@@ -213,44 +213,44 @@
 }
 
 @function rest($value) {
-  $type: meta.type-of($value);
+  $_type: meta.type-of($value);
 
-  @if $type == list {
-    $result: ();
-    $length: list.length($value);
+  @if $_type == list {
+    $_result: ();
+    $_length: list.length($value);
 
-    @if $length >= 2 {
-      @for $i from 2 through $length {
-        $result: list.append($result, list.nth($value, $i));
+    @if $_length >= 2 {
+      @for $_i from 2 through $_length {
+        $_result: list.append($_result, list.nth($value, $_i));
       }
     }
 
-    @return if($result, $result, ());
-  } @else if $type == string {
-    $result: ();
-    $length: string.length($value);
+    @return if($_result, $_result, ());
+  } @else if $_type == string {
+    $_result: ();
+    $_length: string.length($value);
 
-    @if $length >= 2 {
-      @for $i from 2 through $length {
-        $result: list.append($result, string.slice($value, $i, $i));
+    @if $_length >= 2 {
+      @for $_i from 2 through $_length {
+        $_result: list.append($_result, string.slice($value, $_i, $_i));
       }
     }
 
-    @return if($result, $result, ());
+    @return if($_result, $_result, ());
   } @else {
     @error "#{$value} is not a list.";
   }
 }
 
 @function reverse($list...) {
-  $list: _arglist($list);
-  $result: ();
+  $_list: __arglist($list);
+  $_result: ();
 
-  @for $i from list.length($list) through 1 {
-    $result: list.append($result, list.nth($list, $i));
+  @for $_i from list.length($_list) through 1 {
+    $_result: list.append($_result, list.nth($_list, $_i));
   }
 
-  @return $result;
+  @return $_result;
 }
 
 // -------------------- //
@@ -258,105 +258,105 @@
 // -------------------- //
 
 @function map($fn, $list...) {
-  $list: _arglist($list);
-  $result: ();
+  $_list: __arglist($list);
+  $_result: ();
 
-  @each $i in $list {
-    $result: list.append($result, _auto-call($fn, $i));
+  @each $_i in $_list {
+    $_result: list.append($_result, __auto-call($fn, $_i));
   }
 
-  @return $result;
+  @return $_result;
 }
 
 @function filter($fn, $list...) {
-  $list: _arglist($list);
-  $result: ();
+  $_list: __arglist($list);
+  $_result: ();
 
-  @each $i in $list {
-    @if _auto-call($fn, $i) {
-      $result: list.append($result, $i);
+  @each $_i in $_list {
+    @if __auto-call($fn, $_i) {
+      $_result: list.append($_result, $_i);
     }
   }
 
-  @return $result;
+  @return $_result;
 }
 
 @function reduce($fn, $init, $list...) {
-  $list: _arglist($list);
-  $result: $init;
+  $_list: __arglist($list);
+  $_result: $init;
 
-  @each $i in $list {
-    $result: _auto-call($fn, $result, $i);
+  @each $_i in $_list {
+    $_result: __auto-call($fn, $_result, $_i);
   }
 
-  @return $result;
+  @return $_result;
 }
 
 @function some($fn, $list...) {
-  $list: _arglist($list);
-  $counter: 0;
+  $_list: __arglist($list);
+  $_counter: 0;
 
-  @each $i in $list {
-    @if _auto-call($fn, $i) {
-      $counter: $counter + 1;
+  @each $_i in $_list {
+    @if __auto-call($fn, $_i) {
+      $_counter: $_counter + 1;
     }
   }
 
-  @return $counter > 0;
+  @return $_counter > 0;
 }
 
 @function every($fn, $list...) {
-  $list: _arglist($list);
-  $counter: 0;
+  $_list: __arglist($list);
+  $_counter: 0;
 
-  @each $i in $list {
-    @if _auto-call($fn, $i) {
-      $counter: $counter + 1;
+  @each $_i in $_list {
+    @if __auto-call($fn, $_i) {
+      $_counter: $_counter + 1;
     }
   }
 
-  @return $counter == list.length($list);
+  @return $_counter == list.length($_list);
 }
 
 // ------------------ //
 //  Thread functions  //
 // ------------------ //
 
-@function _thread($position, $value, $fn-list...) {
-  $result: $value;
+@function __thread($position, $value, $fn-list...) {
+  $_result: $value;
 
-  @each $i in $fn-list {
-    $type: meta.type-of($i);
+  @each $_i in $fn-list {
+    $_type: meta.type-of($_i);
 
-    @if $type == string {
-      $result: _call-fn($i, $result);
-    } @else if $type == list {
-      $fn: first($i);
-      $args: rest($i);
+    @if $_type == string {
+      $_result: __call-fn($_i, $_result);
+    } @else if $_type == list {
+      $_fn: first($_i);
+      $_args: rest($_i);
 
       @if $position == "FIRST" {
-        $result: _call-fn($fn, $result, $args...);
+        $_result: __call-fn($_fn, $_result, $_args...);
       } @else if $position == "LAST" {
-        $result: _call-fn($fn, $args..., $result);
+        $_result: __call-fn($_fn, $_args..., $_result);
       } @else {
-        $result: _call-lambda($i, $result);
+        $_result: __call-lambda($_i, $_result);
       }
     } @else {
-      @error "#{$i} is not a function.";
+      @error "#{$_i} is not a function.";
     }
   }
 
-  @return $result;
+  @return $_result;
 }
 
 @function thread-as($value, $fn-list...) {
-  @return _thread("AS", $value, $fn-list...);
+  @return __thread("AS", $value, $fn-list...);
 }
 
 @function thread-first($value, $fn-list...) {
-  @return _thread("FIRST", $value, $fn-list...);
+  @return __thread("FIRST", $value, $fn-list...);
 }
 
 @function thread-last($value, $fn-list...) {
-  @return _thread("LAST", $value, $fn-list...);
+  @return __thread("LAST", $value, $fn-list...);
 }
