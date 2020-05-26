@@ -270,6 +270,24 @@
   @return $_result;
 }
 
+@function conj($list, $value) {
+  $_list-type: meta.type-of($list);
+  $_list-separator: list.separator($list);
+  $_value-type: meta.type-of($value);
+
+  @if not $list {
+    @return [$value];
+  } @else if $_list-type == list and $_value-type != list {
+    @return list.append($list, $value, $_list-separator);
+  } @else if $_list-type == list and $_value-type == list {
+    @return list.join($list, $value, $_list-separator);
+  } @else if $_list-type == map and $_value-type == map {
+    @return map.merge($list, $value);
+  } @else {
+    @error "Unable to conj #{$list} and #{$value}.";
+  }
+}
+
 // -------------------- //
 //  Iterator functions  //
 // -------------------- //
