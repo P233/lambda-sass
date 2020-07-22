@@ -181,6 +181,14 @@
     @include assert-equal(reverse(1, 2, 3, 4, 5), (5 4 3 2 1));
   }
 
+  @include test("range") {
+    @include assert-equal(range(5), (0 1 2 3 4));
+    @include assert-equal(range(2, 5), (2 3 4));
+    @include assert-equal(range(-2, 5), (-2 -1 0 1 2 3 4));
+    @include assert-equal(range(2, 9, 3), (2 5 8));
+    @include assert-equal(range(-2, 9, 3), (-2 1 4 7));
+  }
+
   @include test("conj") {
     @include assert-equal(conj(null, 1), [1]);
 

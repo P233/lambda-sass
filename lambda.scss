@@ -284,6 +284,37 @@
   @return $_result;
 }
 
+@function range($args...) {
+  $_result: ();
+  $_args-length: list.length($args);
+
+  @if $_args-length == 1 {
+    @for $_i from 0 to list.nth($args, 1) {
+      $_result: list.append($_result, $_i);
+    }
+
+    @return $_result;
+  } @else if $_args-length == 2 {
+    @for $_i from list.nth($args, 1) to list.nth($args, 2) {
+      $_result: list.append($_result, $_i);
+    }
+
+    @return $_result;
+  } @else if $_args-length == 3 {
+    $_step: list.nth($args, 3);
+    $_pointer: list.nth($args, 1);
+
+    @while $_pointer <= list.nth($args, 2) {
+      $_result: list.append($_result, $_pointer);
+      $_pointer: $_pointer + $_step;
+    }
+
+    @return $_result;
+  } @else {
+    @error "Wrong number of args pased to range.";
+  }
+}
+
 @function conj($list, $value) {
   $_list-type: meta.type-of($list);
   $_list-separator: list.separator($list);
