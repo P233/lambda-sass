@@ -185,6 +185,20 @@
   @return true;
 }
 
+@function not-equal($list...) {
+  $_list: __arglist($list);
+
+  @if list.length($_list) > 1 {
+    @for $_i from 2 through list.length($_list) {
+      @if list.nth($_list, $_i) != list.nth($_list, $_i - 1) {
+        @return true;
+      }
+    }
+  }
+
+  @return false;
+}
+
 // ---------------- //
 //  List functions  //
 // ---------------- //

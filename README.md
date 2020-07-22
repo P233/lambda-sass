@@ -101,6 +101,20 @@ equal(["a", "a", "a"]) // true
 equal(["a", "b", "c"]) // false
 ```
 
+#### `not-equal`
+
+```scss
+not-equal(1, 1, 1) // false
+not-equal(1, 2, 3) // true
+not-equal("a", "a", "a") // false
+not-equal("a", "b", "c") // true
+
+not-equal([1, 1, 1]) // false
+not-equal([1, 2, 3]) // true
+not-equal(["a", "a", "a"]) // false
+not-equal(["a", "b", "c"]) // true
+```
+
 ### List Functions
 
 #### `first`

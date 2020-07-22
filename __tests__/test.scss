@@ -138,6 +138,17 @@
     @include assert-equal(equal("a", "a", 1), false);
     @include assert-equal(equal("a", "a", "a"), true);
   }
+
+  @include test("not-equal") {
+    @include assert-equal(not-equal([1]), false);
+    @include assert-equal(not-equal([1, 1]), false);
+    @include assert-equal(not-equal([ "a", "a", 1]), true);
+    @include assert-equal(not-equal([ "a", "a", "a" ]), false);
+    @include assert-equal(not-equal(1), false);
+    @include assert-equal(not-equal(1, 1), false);
+    @include assert-equal(not-equal("a", "a", 1), true);
+    @include assert-equal(not-equal("a", "a", "a"), false);
+  }
 }
 
 @include test-module("Test list functions:") {
