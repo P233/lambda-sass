@@ -7,18 +7,39 @@ This project is build for fun :)
 ## Functions
 
 1. Most functions have two arities: `fn($list)` or `fn($list...)`.
-2. Anonymous functions use polish notation (`(add 1 2 3)`) and allow `_` or `_1`, `_2` ... to represent the first, the second arguments and so on.
+2. Anonymous functions use polish notation (`(plus 1 2 3)`) and allow `_` or `_1`, `_2` ... to represent the first, the second arguments and so on.
 
 ### Math Functions
 
-#### `add`
+#### `plus`
 
 ```scss
-add(1, 2, 3) // 6
-add("#", "a", "b", "c") // "#abc"
+plus(1, 2, 3) // 6
+plus("#", "a", "b", "c") // "#abc"
 
-add([1, 2, 3]) // 6
-add(["#", "a", "b", "c"]) // "#abc"
+plus([1, 2, 3]) // 6
+plus(["#", "a", "b", "c"]) // "#abc"
+```
+
+#### `minus`
+
+```scss
+minus(1, 2, 3) // -4
+minus([1, 2, 3]) // -4
+```
+
+#### `multiply`
+
+```scss
+multiply(1, 2, 3) // 6
+multiply([1, 2, 3]) // 6
+```
+
+#### `divide`
+
+```scss
+divide(1, 2, 3) // 1/6
+divide([1, 2, 3]) // 1/6
 ```
 
 #### `inc`
@@ -168,10 +189,10 @@ conj((a: 1, b: 2), (c: 3)); // (a: 1, b: 2, c: 3)
 
 ```scss
 map(inc, 1, 2, 3) // (2, 3, 4)
-map((add _ 1), 1, 2, 3) // (2, 3, 4)
+map((plus _ 1), 1, 2, 3) // (2, 3, 4)
 
 map(inc, [1, 2, 3]) // (2, 3, 4)
-map((add _ 1), [1, 2, 3]) // (2, 3, 4)
+map((plus _ 1), [1, 2, 3]) // (2, 3, 4)
 ```
 
 #### `filter`
@@ -189,11 +210,11 @@ filter((greater _ 1), 1, 2, 3) // (2 3)
 `reduce($fn, $init, $list)` or `redure($fn, $init, $list...)`
 
 ```scss
-reduce((add _1 _2), 0, 1, 2, 3) // 6
-reduce((add _1 _2 _2), "#", "a", "b", "c") // "#aabbcc"
+reduce((plus _1 _2), 0, 1, 2, 3) // 6
+reduce((plus _1 _2 _2), "#", "a", "b", "c") // "#aabbcc"
 
-reduce((add _1 _2), 0, [1, 2, 3]) // 6
-reduce((add _1 _2 _2), "#", ["a", "b", "c"]) // "#aabbcc"
+reduce((plus _1 _2), 0, [1, 2, 3]) // 6
+reduce((plus _1 _2 _2), "#", ["a", "b", "c"]) // "#aabbcc"
 ```
 
 #### `some`
@@ -223,7 +244,7 @@ every(odd, [-1, 0, 9]) // false
 Same as the `as->` macro in Clojure.
 
 ```scss
-thread-as(1, inc, (add 10 _ 5), inc, dec) // 17
+thread-as(1, inc, (plus 10 _ 5), inc, dec) // 17
 ```
 
 #### `thread-first`
@@ -231,7 +252,7 @@ thread-as(1, inc, (add 10 _ 5), inc, dec) // 17
 Same as the `->` macro in Clojure.
 
 ```scss
-thread-first(1, inc, (add 10 5), inc, dec) // 17
+thread-first(1, inc, (plus 10 5), inc, dec) // 17
 ```
 
 #### `thread-last`
@@ -239,5 +260,5 @@ thread-first(1, inc, (add 10 5), inc, dec) // 17
 Same as the `->>` macro in Clojure.
 
 ```scss
-thread-last(1, inc, (add 10 5), inc, dec) // 17
+thread-last(1, inc, (plus 10 5), inc, dec) // 17
 ```

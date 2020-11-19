@@ -80,12 +80,45 @@
 //  Math functions  //
 // ---------------- //
 
-@function add($list...) {
+@function plus($list...) {
   $_list: __arglist($list);
   $_result: list.nth($_list, 1);
 
   @for $_i from 2 through list.length($_list) {
     $_result: $_result + list.nth($_list, $_i);
+  }
+
+  @return $_result;
+}
+
+@function minus($list...) {
+  $_list: __arglist($list);
+  $_result: list.nth($_list, 1);
+
+  @for $_i from 2 through list.length($_list) {
+    $_result: $_result - list.nth($_list, $_i);
+  }
+
+  @return $_result;
+}
+
+@function multiply($list...) {
+  $_list: __arglist($list);
+  $_result: list.nth($_list, 1);
+
+  @for $_i from 2 through list.length($_list) {
+    $_result: $_result * list.nth($_list, $_i);
+  }
+
+  @return $_result;
+}
+
+@function divide($list...) {
+  $_list: __arglist($list);
+  $_result: list.nth($_list, 1);
+
+  @for $_i from 2 through list.length($_list) {
+    $_result: $_result / list.nth($_list, $_i);
   }
 
   @return $_result;

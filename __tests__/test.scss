@@ -28,28 +28,43 @@
 
   @include test("__call-fn") {
     @include assert-equal(__call-fn("inc", 1), 2);
-    @include assert-equal(__call-fn("add", 1, 2, 3), 6);
+    @include assert-equal(__call-fn("plus", 1, 2, 3), 6);
   }
 
   @include test("__call-lambda") {
-    @include assert-equal(__call-lambda((add _ 10), 1), 11);
-    @include assert-equal(__call-lambda((add _1 _2), 1, 2), 3);
+    @include assert-equal(__call-lambda((plus _ 10), 1), 11);
+    @include assert-equal(__call-lambda((plus _1 _2), 1, 2), 3);
   }
 
   @include test("__auto-call") {
     @include assert-equal(__auto-call("inc", 1), 2);
-    @include assert-equal(__auto-call("add", 1, 2, 3), 6);
-    @include assert-equal(__auto-call((add _ 10), 1), 11);
-    @include assert-equal(__auto-call((add _1 _2), 1, 2), 3);
+    @include assert-equal(__auto-call("plus", 1, 2, 3), 6);
+    @include assert-equal(__auto-call((plus _ 10), 1), 11);
+    @include assert-equal(__auto-call((plus _1 _2), 1, 2), 3);
   }
 }
 
 @include test-module("Test math functions:") {
-  @include test("add") {
-    @include assert-equal(add([1, 2, 3]), 6);
-    @include assert-equal(add([ "#", "a", "b", "c" ]), "#abc");
-    @include assert-equal(add(1, 2, 3), 6);
-    @include assert-equal(add("#", "a", "b", "c"), "#abc");
+  @include test("plus") {
+    @include assert-equal(plus([1, 2, 3]), 6);
+    @include assert-equal(plus(1, 2, 3), 6);
+    @include assert-equal(plus([ "#", "a", "b", "c" ]), "#abc");
+    @include assert-equal(plus("#", "a", "b", "c"), "#abc");
+  }
+
+  @include test("minus") {
+    @include assert-equal(minus([1, 2, 3]), -4);
+    @include assert-equal(minus(1, 2, 3), -4);
+  }
+
+  @include test("multiply") {
+    @include assert-equal(multiply([1, 2, 3]), 6);
+    @include assert-equal(multiply(1, 2, 3), 6);
+  }
+
+  @include test("divide") {
+    @include assert-equal(divide([1, 2, 3]), 1/6);
+    @include assert-equal(divide(1, 2, 3), 1/6);
   }
 
   @include test("inc") {
@@ -217,10 +232,10 @@
 @include test-module("Test iterator functions:") {
   @include test("map") {
     @include assert-equal(map(inc, [1 2 3]), (2 3 4));
-    @include assert-equal(map((add 1 _), [1 2 3]), (2 3 4));
+    @include assert-equal(map((plus 1 _), [1 2 3]), (2 3 4));
     @include assert-equal(map(first, [[1] [2] [3]]), (1 2 3));
     @include assert-equal(map(inc, 1, 2, 3), (2 3 4));
-    @include assert-equal(map((add 1 _), 1, 2, 3), (2 3 4));
+    @include assert-equal(map((plus 1 _), 1, 2, 3), (2 3 4));
     @include assert-equal(map(first, [1], [2], [3]), (1 2 3));
   }
 
@@ -232,14 +247,14 @@
   }
 
   @include test("reduce") {
-    @include assert-equal(reduce((add _1 _2), 0, (1 2 3)), 6);
+    @include assert-equal(reduce((plus _1 _2), 0, (1 2 3)), 6);
     @include assert-equal(
-      reduce((add _1 _2 _2), "#", [ "a", "b", "c" ]),
+      reduce((plus _1 _2 _2), "#", [ "a", "b", "c" ]),
       "#aabbcc"
     );
-    @include assert-equal(reduce((add _1 _2), 0, 1, 2, 3), 6);
+    @include assert-equal(reduce((plus _1 _2), 0, 1, 2, 3), 6);
     @include assert-equal(
-      reduce((add _1 _2 _2), "#", "a", "b", "c"),
+      reduce((plus _1 _2 _2), "#", "a", "b", "c"),
       "#aabbcc"
     );
   }
@@ -261,14 +276,14 @@
 
 @include test-module("Test thread functions:") {
   @include test("thread-as") {
-    @include assert-equal(thread-as(1, inc, (add 10 _ 5), inc, dec), 17);
+    @include assert-equal(thread-as(1, inc, (plus 10 _ 5), inc, dec), 17);
   }
 
   @include test("thread-first") {
-    @include assert-equal(thread-first(1, inc, (add 10 5), inc, dec), 17);
+    @include assert-equal(thread-first(1, inc, (plus 10 5), inc, dec), 17);
   }
 
   @include test("thread-last") {
-    @include assert-equal(thread-last(1, inc, (add 10 5), inc, dec), 17);
+    @include assert-equal(thread-last(1, inc, (plus 10 5), inc, dec), 17);
   }
 }
