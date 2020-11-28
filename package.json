@@ -1,6 +1,6 @@
 {
   "name": "lambda-sass",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Functional programming in Sass",
   "main": "lambda.scss",
   "scripts": {
@@ -47,6 +47,6 @@
     ]
   },
   "files": [
-    "sliver.scss"
+    "lambda.scss"
   ]
 }
