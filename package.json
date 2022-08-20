@@ -4,6 +4,7 @@
   "description": "Functional programming in Sass",
   "main": "lambda.scss",
   "scripts": {
+    "lint": "stylelint lambda.scss",
     "test": "jest --silent"
   },
   "repository": {
@@ -42,7 +43,7 @@
   },
   "lint-staged": {
     "*.scss": [
-      "stylelint --fix",
+      "stylelint",
       "prettier --write"
     ]
   },
