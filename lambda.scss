@@ -124,8 +124,16 @@
   @return $_result;
 }
 
-@function pow($base, $exponent) {
-  @return math.pow($base, $exponent);
+@function rem($n, $div) {
+  @return $n % $div;
+}
+
+@function quot($n, $div) {
+  @return if($n > 0 and $div > 0, math.floor($n / $div), math.ceil($n / $div));
+}
+
+@function pow($n, $exponent) {
+  @return math.pow($n, $exponent);
 }
 
 @function inc($n) {
