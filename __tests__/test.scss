@@ -75,12 +75,6 @@
     @include assert-equal(quot(10, -3), -3);
   }
 
-  @include test("pow") {
-    @include assert-equal(pow(3, 3), 27);
-    @include assert-equal(pow(16, 2), 256);
-    @include assert-equal(pow(2, 16), 65536);
-  }
-
   @include test("inc") {
     @include assert-equal(inc(1), 2);
   }

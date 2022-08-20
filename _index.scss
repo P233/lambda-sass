@@ -132,10 +132,6 @@
   @return if($n > 0 and $div > 0, math.floor($n / $div), math.ceil($n / $div));
 }
 
-@function pow($n, $exponent) {
-  @return math.pow($n, $exponent);
-}
-
 @function inc($n) {
   @return $n + 1;
 }
