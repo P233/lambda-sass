@@ -348,6 +348,20 @@
   }
 }
 
+@function repeat($pattern, $times) {
+  @if meta.type-of($times) != number or $times <= 0 {
+    @error "#{$times} should be a positive integer.";
+  }
+
+  $_result: ();
+
+  @for $i from 0 to $times {
+    $_result: list.append($_result, $pattern);
+  }
+
+  @return $_result;
+}
+
 @function conj($list, $value) {
   $_list-type: meta.type-of($list);
   $_list-separator: list.separator($list);
