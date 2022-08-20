@@ -15,15 +15,9 @@
 
   @include test("__get-function") {
     @include assert-equal(meta.type-of(__get-function("map-get")), "function");
-    @include assert-equal(
-      __get-function("map-get"),
-      meta.get-function("map-get")
-    );
+    @include assert-equal(__get-function("map-get"), meta.get-function("map-get"));
     @include assert-equal(meta.type-of(__get-function("map.get")), "function");
-    @include assert-equal(
-      __get-function("map.get"),
-      meta.get-function("get", false, "map")
-    );
+    @include assert-equal(__get-function("map.get"), meta.get-function("get", false, "map"));
   }
 
   @include test("__call-fn") {
@@ -212,10 +206,7 @@
   @include test("repeat") {
     @include assert-equal(repeat(1, 5), (1 1 1 1 1));
     @include assert-equal(repeat("a", 5), ("a" "a" "a" "a" "a"));
-    @include assert-equal(
-      repeat((1, 2), 5),
-      ((1, 2) (1, 2) (1, 2) (1, 2) (1, 2))
-    );
+    @include assert-equal(repeat((1, 2), 5), ((1, 2) (1, 2) (1, 2) (1, 2) (1, 2)));
   }
 
   @include test("conj") {
@@ -262,15 +253,9 @@
 
   @include test("reduce") {
     @include assert-equal(reduce((plus _1 _2), 0, (1 2 3)), 6);
-    @include assert-equal(
-      reduce((plus _1 _2 _2), "#", [ "a", "b", "c" ]),
-      "#aabbcc"
-    );
+    @include assert-equal(reduce((plus _1 _2 _2), "#", [ "a", "b", "c" ]), "#aabbcc");
     @include assert-equal(reduce((plus _1 _2), 0, 1, 2, 3), 6);
-    @include assert-equal(
-      reduce((plus _1 _2 _2), "#", "a", "b", "c"),
-      "#aabbcc"
-    );
+    @include assert-equal(reduce((plus _1 _2 _2), "#", "a", "b", "c"), "#aabbcc");
   }
 
   @include test("some") {
@@ -290,10 +275,7 @@
 
 @include test-module("Test thread functions:") {
   @include test("thread-as") {
-    @include assert-equal(
-      thread-as(1, inc, (plus 10 _ 5), dec, (pow _ 2)),
-      256
-    );
+    @include assert-equal(thread-as(1, inc, (plus 10 _ 5), dec, (pow _ 2)), 256);
   }
 
   @include test("thread-first") {
@@ -301,9 +283,6 @@
   }
 
   @include test("thread-last") {
-    @include assert-equal(
-      thread-last(1, inc, (plus 10 5), dec, (pow 2)),
-      65536
-    );
+    @include assert-equal(thread-last(1, inc, (plus 10 5), dec, (pow 2)), 65536);
   }
 }
