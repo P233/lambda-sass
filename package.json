@@ -5,7 +5,8 @@
   "main": "_index.scss",
   "scripts": {
     "lint": "stylelint _index.scss",
-    "test": "jest --silent"
+    "test": "jest --silent",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -35,11 +36,6 @@
   },
   "jest": {
     "testEnvironment": "node"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run test"
-    }
   },
   "lint-staged": {
     "*.scss": [
