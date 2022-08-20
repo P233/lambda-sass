@@ -10,7 +10,7 @@
     @include assert-equal(__replace-args((_2 _1), ("a" "b")), ("b" "a"));
     @include assert-equal(__replace-args((_2 _1), ("a" "b" "c")), ("b" "a"));
 
-    // [TODO] `_replace-args((_2 _1), [ "a" ])` should return error
+    // [TODO] match error case, such as `_replace-args((_2 _1), [ "a" ])`
   }
 
   @include test("__get-function") {
