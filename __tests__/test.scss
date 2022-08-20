@@ -63,8 +63,8 @@
   }
 
   @include test("divide") {
-    @include assert-equal(divide([1, 2, 3]), 1/6);
-    @include assert-equal(divide(1, 2, 3), 1/6);
+    @include assert-equal(divide([1, 2, 3]), 0.16666666667);
+    @include assert-equal(divide(1, 2, 3), 0.16666666667);
   }
 
   @include test("inc") {
