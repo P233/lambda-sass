@@ -68,6 +68,13 @@
     @include assert-equal(rem(-10, -3), -1);
   }
 
+  @include test("quot") {
+    @include assert-equal(quot(10, 3), 3);
+    @include assert-equal(quot(12, 3), 4);
+    @include assert-equal(quot(-5.9, 3), -1);
+    @include assert-equal(quot(10, -3), -3);
+  }
+
   @include test("pow") {
     @include assert-equal(pow(3, 3), 27);
     @include assert-equal(pow(16, 2), 256);
