@@ -64,7 +64,7 @@
   } @else if $_type == list {
     @return __call-lambda($fn, $args...);
   } @else {
-    @error "#{$fn} is not a function.";
+    @error "#{$fn} should be a function.";
   }
 }
 
@@ -134,7 +134,7 @@
 
 @function odd($n) {
   @if meta.type-of($n) != number {
-    @error "#{$n} is not a number.";
+    @error "#{$n} should be a number.";
   }
 
   @return $n / ($n * 0 + 1) % 2 == 1;
@@ -142,7 +142,7 @@
 
 @function even($n) {
   @if meta.type-of($n) != number {
-    @error "#{$n} is not a number.";
+    @error "#{$n} should be a number.";
   }
 
   @return $n / ($n * 0 + 1) % 2 == 0;
@@ -252,7 +252,7 @@
 
     @return string.slice($value, 1, 1);
   } @else {
-    @error "#{$value} is not a list.";
+    @error "#{$value} should be a list.";
   }
 }
 
@@ -272,7 +272,7 @@
 
     @return string.slice($value, -1);
   } @else {
-    @error "#{$value} is not a list.";
+    @error "#{$value} should be a list.";
   }
 }
 
@@ -302,7 +302,7 @@
 
     @return if($_result, $_result, ());
   } @else {
-    @error "#{$value} is not a list.";
+    @error "#{$value} should be a list.";
   }
 }
 
@@ -469,7 +469,7 @@
         $_result: __call-lambda($_i, $_result);
       }
     } @else {
-      @error "#{$_i} is not a function.";
+      @error "#{$_i} should be a function.";
     }
   }
 
