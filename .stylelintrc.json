@@ -1,3 +1,6 @@
 {
-  "extends": ["@p233/stylelint-config-scss"]
+  "extends": ["@p233/stylelint-config-scss"],
+  "rules": {
+    "number-max-precision": null
+  }
 }

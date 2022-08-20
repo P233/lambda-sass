@@ -124,6 +124,10 @@
   @return $_result;
 }
 
+@function pow($base, $exponent) {
+  @return math.pow($base, $exponent);
+}
+
 @function inc($n) {
   @return $n + 1;
 }

@@ -42,6 +42,13 @@ divide(1, 2, 3) // 0.16666666667
 divide([1, 2, 3]) // 0.16666666667
 ```
 
+#### `pow`
+
+```scss
+pow(16, 2) // 256
+pow(2, 16) // 65536
+```
+
 #### `inc`
 
 ```scss
@@ -252,7 +259,7 @@ every(odd, [-1, 0, 9]) // false
 Same as the `as->` macro in Clojure.
 
 ```scss
-thread-as(1, inc, (plus 10 _ 5), inc, dec) // 17
+thread-as(1, inc, (plus 10 _ 5), dec, (pow _ 2)) // 256
 ```
 
 #### `thread-first`
@@ -260,7 +267,7 @@ thread-as(1, inc, (plus 10 _ 5), inc, dec) // 17
 Same as the `->` macro in Clojure.
 
 ```scss
-thread-first(1, inc, (plus 10 5), inc, dec) // 17
+thread-first(1, inc, (plus 10 5), dec, (pow 2)) // 256
 ```
 
 #### `thread-last`
@@ -268,5 +275,5 @@ thread-first(1, inc, (plus 10 5), inc, dec) // 17
 Same as the `->>` macro in Clojure.
 
 ```scss
-thread-last(1, inc, (plus 10 5), inc, dec) // 17
+thread-last(1, inc, (plus 10 5), dec, (pow 2)) // 65536
 ```

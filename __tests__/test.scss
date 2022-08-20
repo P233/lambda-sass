@@ -67,6 +67,11 @@
     @include assert-equal(divide(1, 2, 3), 0.16666666667);
   }
 
+  @include test("pow") {
+    @include assert-equal(pow(16, 2), 256);
+    @include assert-equal(pow(2, 16), 65536);
+  }
+
   @include test("inc") {
     @include assert-equal(inc(1), 2);
   }
@@ -285,14 +290,20 @@
 
 @include test-module("Test thread functions:") {
   @include test("thread-as") {
-    @include assert-equal(thread-as(1, inc, (plus 10 _ 5), inc, dec), 17);
+    @include assert-equal(
+      thread-as(1, inc, (plus 10 _ 5), dec, (pow _ 2)),
+      256
+    );
   }
 
   @include test("thread-first") {
-    @include assert-equal(thread-first(1, inc, (plus 10 5), inc, dec), 17);
+    @include assert-equal(thread-first(1, inc, (plus 10 5), dec, (pow 2)), 256);
   }
 
   @include test("thread-last") {
-    @include assert-equal(thread-last(1, inc, (plus 10 5), inc, dec), 17);
+    @include assert-equal(
+      thread-last(1, inc, (plus 10 5), dec, (pow 2)),
+      65536
+    );
   }
 }
