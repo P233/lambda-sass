@@ -462,9 +462,11 @@
       $_args: rest($_i);
 
       @if $position == "FIRST" {
-        $_result: __call-fn($_fn, $_result, $_args...);
+        $_new-args: list.join($_result, $_args);
+        $_result: __call-fn($_fn, $_new-args...);
       } @else if $position == "LAST" {
-        $_result: __call-fn($_fn, $_args..., $_result);
+        $_new-args: list.join($_args, $_result);
+        $_result: __call-fn($_fn, $_new_args...);
       } @else {
         $_result: __call-lambda($_i, $_result);
       }
