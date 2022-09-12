@@ -2,7 +2,7 @@
 @use "sass:meta";
 
 @import "true";
-@import "index";
+@import "../src/lambda";
 
 @include test-module("Test helper functions:") {
   @include test("__replace-args") {

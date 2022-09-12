@@ -2,9 +2,9 @@
   "name": "lambda-sass",
   "version": "2.0.0-alpha.1",
   "description": "Functional programming in Sass",
-  "main": "_index.scss",
+  "main": "./src/lambda.scss",
   "scripts": {
-    "lint": "stylelint _index.scss",
+    "lint": "stylelint src/lambda.scss",
     "test": "jest --silent",
     "prepare": "husky install"
   },
@@ -44,6 +44,6 @@
     ]
   },
   "files": [
-    "_index.scss"
+    "src"
   ]
 }
