@@ -25,14 +25,15 @@
   },
   "homepage": "https://github.com/P233/lambda-sass#readme",
   "devDependencies": {
-    "@p233/stylelint-config-scss": "^3.2.0",
+    "@p233/stylelint-config-scss": "^3.2.1",
     "husky": "^8.0.1",
     "jest": "^28.1.3",
     "lint-staged": "^13.0.3",
-    "prettier": "^2.1.2",
-    "sass": "^1.29.0",
-    "sass-true": "^6.0.1",
-    "stylelint": "^14.10.0"
+    "postcss": "^8.4.17",
+    "prettier": "^2.7.1",
+    "sass": "^1.55.0",
+    "sass-true": "^6.1.0",
+    "stylelint": "^14.13.0"
   },
   "jest": {
     "testEnvironment": "node"
