@@ -118,7 +118,7 @@
   $_result: list.nth($_list, 1);
 
   @for $_i from 2 through list.length($_list) {
-    $_result: $_result / list.nth($_list, $_i);
+    $_result: math.div($_result, list.nth($_list, $_i));
   }
 
   @return $_result;
@@ -129,7 +129,7 @@
 }
 
 @function quot($n, $div) {
-  @return if($n > 0 and $div > 0, math.floor($n / $div), math.ceil($n / $div));
+  @return if($n > 0 and $div > 0, math.floor(math.div($n, $div)), math.ceil(math.div($n, $div)));
 }
 
 @function inc($n) {
@@ -145,7 +145,7 @@
     @error "#{$n} should be a number.";
   }
 
-  @return $n / ($n * 0 + 1) % 2 == 1;
+  @return math.div($n, ($n * 0 + 1)) % 2 == 1;
 }
 
 @function even($n) {
@@ -153,7 +153,7 @@
     @error "#{$n} should be a number.";
   }
 
-  @return $n / ($n * 0 + 1) % 2 == 0;
+  @return math.div($n, ($n * 0 + 1)) % 2 == 0;
 }
 
 @function greater($list...) {
