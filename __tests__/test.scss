@@ -1,5 +1,6 @@
 /* stylelint-disable scss/double-slash-comment-empty-line-before, at-rule-empty-line-before */
 @use "sass:map";
+@use "sass:list";
 @use "sass:meta";
 
 @import "true";
@@ -219,26 +220,12 @@
   }
 
   @include test("conj") {
-    @include assert-equal(conj(null, 1), [1]);
-    // @include assert-equal(conj([], 1), [1]);
+    @include assert-equal(conj(null, 1), (1));
+    @include assert-equal(conj([], 1), list.append([], 1));
     @include assert-equal(conj([1, 2], 3), [1, 2, 3]);
     @include assert-equal(conj([1, 2], [3, 4]), [1, 2, 3, 4]);
-    @include assert-equal(
-      conj(
-        (
-          a: 1,
-          b: 2,
-        ),
-        (
-          c: 3,
-        )
-      ),
-      (
-        a: 1,
-        b: 2,
-        c: 3,
-      )
-    );
+    // prettier-ignore
+    @include assert-equal(conj((a: 1, b: 2), (c: 3)), (a: 1, b: 2, c: 3));
   }
 }
 
