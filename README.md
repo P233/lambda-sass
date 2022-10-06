@@ -339,6 +339,27 @@ every(odd, [-1, 3, 9]) // true
 every(odd, [-1, 0, 9]) // false
 ```
 
+### Assoc Functions
+
+#### assoc
+
+`assoc($map, ($key, $value)...)`
+
+```scss
+assoc((a: 1, b: 2), a, 3, b, 4) // (a: 3, b: 4)
+assoc([1 2 3], 2, (a b)) // [1 (a b) 3]
+assoc([1 2 3], 2, a, 3, b, 4, c, 5, d) // [1 a b c d]
+```
+
+#### assoc-in
+
+`assoc-in($map, [$key], $value)`
+
+```scss
+assoc-in((a: (b: (c: 1, d: 2))), [a b c], 2) // (a: (b: (c: 2, d: 2)))
+assoc-in((1 (a (a b)) 3), [2 2 2], a) // (1 (a (a a)) 3)
+```
+
 ### Threading Functions
 
 #### thread-as

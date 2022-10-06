@@ -454,6 +454,86 @@
 }
 
 // ------------------ //
+//  Assoc functions  //
+// ------------------ //
+
+@function assoc($map, $args...) {
+  $_result: if($map, $map, ());
+  $_type: meta.type-of($_result);
+  $_args-length: list.length($args);
+
+  @if not even($_args-length) {
+    @error "Wrong number of args.";
+  }
+
+  @if $_type == map or $_result == () {
+    @for $_i from 1 through math.div($_args-length, 2) {
+      $_result: map.set($_result, list.nth($args, $_i * 2 - 1), list.nth($args, $_i * 2));
+    }
+  } @else if $_type == list {
+    @for $_i from 1 through math.div($_args-length, 2) {
+      $_index: list.nth($args, $_i * 2 - 1);
+      $_result-length: list.length($_result);
+
+      @if $_index <= $_result-length {
+        $_result: list.set-nth($_result, $_index, list.nth($args, $_i * 2));
+      } @else if $_index == $_result-length + 1 {
+        $_result: list.append($_result, list.nth($args, $_i * 2));
+      } @else {
+        @error "Invalid index #{$_index} for list (#{$map}).";
+      }
+    }
+  } @else {
+    @error "#{$map} should be a map or list.";
+  }
+
+  @return $_result;
+}
+
+@function assoc-in($map, $key-list, $value) {
+  $_result: if($map, $map, ());
+  $_map-type: meta.type-of($_result);
+
+  @if meta.type-of($key-list) != list {
+    @error "#{$key-list} should be a list.";
+  }
+
+  @if $_map-type == map or $_result == () {
+    $_override-map: (
+      last($key-list): $value,
+    );
+
+    @each $_key in rest(reverse($key-list)) {
+      $_override-map: (
+        $_key: $_override-map,
+      );
+    }
+
+    $_result: map.deep-merge($map, $_override-map);
+  } @else if $_map-type == list {
+    $_flat-list: list.append((), $map);
+
+    @each $_index in rest($key-list) {
+      $_flat-list: list.append($_flat-list, list.nth(last($_flat-list), $_index));
+    }
+
+    $_flat-list: reverse($_flat-list);
+    $_result: list.set-nth(first($_flat-list), first($key-list), $value);
+    $_key-list-length: list.length($key-list);
+
+    @if ($_key-list-length > 1) {
+      @for $_i from 2 through $_key-list-length {
+        $_result: list.set-nth(list.nth($_flat-list, $_i), list.nth($key-list, $_i), $_result);
+      }
+    }
+  } @else {
+    @error "#{$map} should be a map or list.";
+  }
+
+  @return $_result;
+}
+
+// ------------------ //
 //  Thread functions  //
 // ------------------ //
 

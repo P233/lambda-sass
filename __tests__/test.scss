@@ -1,3 +1,4 @@
+/* stylelint-disable scss/double-slash-comment-empty-line-before, at-rule-empty-line-before */
 @use "sass:map";
 @use "sass:meta";
 
@@ -9,7 +10,6 @@
     @include assert-equal(__replace-args((_ _), [1]), (1 1));
     @include assert-equal(__replace-args((_2 _1), ("a" "b")), ("b" "a"));
     @include assert-equal(__replace-args((_2 _1), ("a" "b" "c")), ("b" "a"));
-
     // [TODO] match error case, such as `_replace-args((_2 _1), [ "a" ])`
   }
 
@@ -220,7 +220,6 @@
 
   @include test("conj") {
     @include assert-equal(conj(null, 1), [1]);
-
     // @include assert-equal(conj([], 1), [1]);
     @include assert-equal(conj([1, 2], 3), [1, 2, 3]);
     @include assert-equal(conj([1, 2], [3, 4]), [1, 2, 3, 4]);
@@ -279,6 +278,39 @@
     @include assert-equal(every(odd, [-1 0 9]), false);
     @include assert-equal(every(odd, -1, 3, 9), true);
     @include assert-equal(every(odd, -1, 0, 9), false);
+  }
+}
+
+@include test-module("Test assoc functions:") {
+  @include test("assoc") {
+    // prettier-ignore
+    @include assert-equal(assoc((), a, 1), (a: 1));
+    // prettier-ignore
+    @include assert-equal(assoc((), a, 1, b, 2), (a: 1, b: 2));
+    // prettier-ignore
+    @include assert-equal(assoc((c: 3), a, 1, b, 2), (a: 1, b: 2, c: 3));
+    // prettier-ignore
+    @include assert-equal(assoc((a: 1, b: 2), a, 3, b, 4), (a: 3, b: 4));
+
+    @include assert-equal(assoc((1 2 3), 2, a), (1 a 3));
+    @include assert-equal(assoc((1 2 3), 2, a, 3, b), (1 a b));
+    @include assert-equal(assoc((1 2 3), 2, a, 3, b, 4, c), (1 a b c));
+    @include assert-equal(assoc((1 2 3), 2, a, 3, b, 4, c, 5, d), (1 a b c d));
+    @include assert-equal(assoc([1 2 3], 2, a), [1 a 3]);
+    @include assert-equal(assoc([1 2 3], 2, (a b)), [1 (a b) 3]);
+  }
+
+  @include test("assoc-in") {
+    // prettier-ignore
+    @include assert-equal(assoc-in((), [a], 1), (a: 1));
+    // prettier-ignore
+    @include assert-equal(assoc-in((a: 1), [a], 2), (a: 2));
+    // prettier-ignore
+    @include assert-equal(assoc-in((a: (b: (c: 1, d: 2))), [a b c], 2), (a: (b: (c: 2, d: 2))));
+
+    @include assert-equal(assoc-in((1 2 3), [2], a), (1 a 3));
+    @include assert-equal(assoc-in((1 (a b) 3), [2 2], a), (1 (a a) 3));
+    @include assert-equal(assoc-in((1 (a (a b)) 3), [2 2 2], a), (1 (a (a a)) 3));
   }
 }
 
