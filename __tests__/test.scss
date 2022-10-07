@@ -214,6 +214,7 @@
   }
 
   @include test("repeat") {
+    @include assert-equal(repeat(1, 1), list.append((), 1));
     @include assert-equal(repeat(1, 5), (1 1 1 1 1));
     @include assert-equal(repeat("a", 5), ("a" "a" "a" "a" "a"));
     @include assert-equal(repeat((1, 2), 5), ((1, 2) (1, 2) (1, 2) (1, 2) (1, 2)));
