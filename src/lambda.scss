@@ -84,6 +84,10 @@
   $_list: __arglist($list);
   $_result: list.nth($_list, 1);
 
+  @if list.length($_list) == 1 {
+    @return $_result;
+  }
+
   @for $_i from 2 through list.length($_list) {
     $_result: $_result + list.nth($_list, $_i);
   }
@@ -94,6 +98,10 @@
 @function minus($list...) {
   $_list: __arglist($list);
   $_result: list.nth($_list, 1);
+
+  @if list.length($_list) == 1 {
+    @return 0 - $_result;
+  }
 
   @for $_i from 2 through list.length($_list) {
     $_result: $_result - list.nth($_list, $_i);
@@ -106,6 +114,10 @@
   $_list: __arglist($list);
   $_result: list.nth($_list, 1);
 
+  @if list.length($_list) == 1 {
+    @return $_result;
+  }
+
   @for $_i from 2 through list.length($_list) {
     $_result: $_result * list.nth($_list, $_i);
   }
@@ -116,6 +128,10 @@
 @function divide($list...) {
   $_list: __arglist($list);
   $_result: list.nth($_list, 1);
+
+  @if list.length($_list) == 1 {
+    @return math.div(1, $_result);
+  }
 
   @for $_i from 2 through list.length($_list) {
     $_result: math.div($_result, list.nth($_list, $_i));
