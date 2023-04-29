@@ -1,9 +1,9 @@
-/* stylelint-disable scss/double-slash-comment-empty-line-before, at-rule-empty-line-before */
+/* stylelint-disable scss/double-slash-comment-empty-line-before, at-rule-empty-line-before, import-notation */
 @use "sass:map";
 @use "sass:list";
 @use "sass:meta";
+@use "true" as *;
 
-@import "true";
 @import "../src/lambda";
 
 @include test-module("Test helper functions:") {
@@ -45,7 +45,7 @@
     @include assert-equal(plus([1]), 1);
     @include assert-equal(plus([1, 2, 3]), 6);
     @include assert-equal(plus(1, 2, 3), 6);
-    @include assert-equal(plus([ "#", "a", "b", "c" ]), "#abc");
+    @include assert-equal(plus([ "#", "a", "b", "c"]), "#abc");
     @include assert-equal(plus("#", "a", "b", "c"), "#abc");
   }
 
@@ -164,7 +164,7 @@
     @include assert-equal(equal([1]), true);
     @include assert-equal(equal([1, 1]), true);
     @include assert-equal(equal([ "a", "a", 1]), false);
-    @include assert-equal(equal([ "a", "a", "a" ]), true);
+    @include assert-equal(equal([ "a", "a", "a"]), true);
     @include assert-equal(equal(1), true);
     @include assert-equal(equal(1, 1), true);
     @include assert-equal(equal("a", "a", 1), false);
@@ -175,7 +175,7 @@
     @include assert-equal(not-equal([1]), false);
     @include assert-equal(not-equal([1, 1]), false);
     @include assert-equal(not-equal([ "a", "a", 1]), true);
-    @include assert-equal(not-equal([ "a", "a", "a" ]), false);
+    @include assert-equal(not-equal([ "a", "a", "a"]), false);
     @include assert-equal(not-equal(1), false);
     @include assert-equal(not-equal(1, 1), false);
     @include assert-equal(not-equal("a", "a", 1), true);
@@ -257,7 +257,7 @@
 
   @include test("reduce") {
     @include assert-equal(reduce((plus _1 _2), 0, (1 2 3)), 6);
-    @include assert-equal(reduce((plus _1 _2 _2), "#", [ "a", "b", "c" ]), "#aabbcc");
+    @include assert-equal(reduce((plus _1 _2 _2), "#", [ "a", "b", "c"]), "#aabbcc");
     @include assert-equal(reduce((plus _1 _2), 0, 1, 2, 3), 6);
     @include assert-equal(reduce((plus _1 _2 _2), "#", "a", "b", "c"), "#aabbcc");
   }
