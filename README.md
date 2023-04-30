@@ -1,12 +1,12 @@
 # lambda-sass
 
-Implement functional programming (mostly [Clojure](https://clojure.org/)) in Sass. [Dart Sass](https://sass-lang.com/dart-sass) only.
+Implement functional programming ([Clojure syntax](https://clojure.org/)) in Sass. [Dart Sass](https://sass-lang.com/dart-sass) only.
 
 ## Features
 
 ### Anonymous function
 
-Anonymous function is implemented in lisp [S-expression](https://en.wikipedia.org/wiki/S-expression), e.g. `(plus 1 2 3)` (the Sass list data type under the hood). You can use `_` for single parameter, or use `_1` `_2` and so on for multiple parameters.
+Anonymous functions in Lisp are implemented using S-expressions, such as `(plus 1 2 3)`, which is represented as the Sass list data type under the hood. When defining anonymous functions, you can use `_` for a single parameter or `_1`, `_2`, and so on for multiple parameters.
 
 Only [Iterator Functions](#iterator-functions) and [Threading Functions](#threading-functions) accept anonymous functions as arguments. Here are some examples:
 
@@ -15,19 +15,35 @@ reduce((plus _1 _2 _2), "#", ["a", "b", "c"]) // "#aabbcc"
 thread-last(1, inc, (plus 10 5), dec, ("math.pow" 2)) // 65536
 ```
 
-As you noticed in the above example, to use the [Sass build-in modules](https://sass-lang.com/documentation/modules), _you will need to quote the method name_, otherwise it will raise a syntax error, but no need to import the module with `@use "sass:math"` at the beginning of your file.
+As you may have noticed in the example above, it is necessary to enclose the method name in quotes when using the [Sass built-in modules](https://sass-lang.com/documentation/modules). Failure to do so will result in a syntax error. It's important to note that all Sass built-in modules are already pre-included, so there's no need to import the module using `@use "sass:math"` at the beginning of your file.
 
 ### Clojure threading macros
 
-It's a huge joy to be able to use the Clojure threading-like features in Sass. If you are not familiar with threading macros, [check this](https://clojuredocs.org/clojure.core/-%3E).
+It's exciting to have the ability to utilize the threading-like features of Clojure in Sass. In case you're not acquainted with threading macros, I recommend taking a look at [this resource](https://clojuredocs.org/clojure.core/-%3E).
 
 ### Arities
 
-Most functions have two arities: `fn($list...)` and `fn([$list])`, for example, both `plus(1, 2, 3)` and `plus([1, 2, 3])` return `6`.
+Many functions have two different ways of being called, known as arities: `fn($list...)` and `fn([$list])`. For instance, `plus(1, 2, 3)` and `plus([1, 2, 3])` both result in the value `6`.
 
 ## Usage
 
-[TODO]
+Install lambda-sass
+
+```
+npm i -D lambda-sass
+```
+
+In vanilla projects, import the full path to `lambda.scss`:
+
+```scss
+@use "path/to/node_modules/lambda-sass/src/lambda.scss" as *;
+```
+
+In some frameworks, like `Next.js`, which utilize the webpack `sass-loader`, it is possible to simply import the package name:
+
+```scss
+@use "lambda-sass" as *;
+```
 
 ## Functions
 
