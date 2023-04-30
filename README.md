@@ -6,7 +6,7 @@ Implement functional programming ([Clojure syntax](https://clojure.org/)) in Sas
 
 ### Anonymous function
 
-Anonymous functions in Lisp are implemented using S-expressions, such as `(plus 1 2 3)`, which is represented as the Sass list data type under the hood. When defining anonymous functions, you can use `_` for a single parameter or `_1`, `_2`, and so on for multiple parameters.
+Anonymous functions in lambda-sass are implemented using S-expressions, such as `(plus 1 2 3)`, which is represented as the Sass list data type under the hood. When defining anonymous functions, you can use `_` for a single parameter or `_1`, `_2`, and so on for multiple parameters.
 
 Only [Iterator Functions](#iterator-functions) and [Threading Functions](#threading-functions) accept anonymous functions as arguments. Here are some examples:
 
