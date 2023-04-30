@@ -90,6 +90,8 @@ divide([1, 2, 3]) // 0.16666666667
 
 #### rem
 
+Remainder of dividing numerator by denominator.
+
 `rem($base, $div)`
 
 ```scss
@@ -100,6 +102,8 @@ rem(-10, -3) // -1
 ```
 
 #### quot
+
+Quotient of dividing numerator by denominator.
 
 `quot($base, $div)`
 
