@@ -64,7 +64,7 @@
   } @else if $_type == list {
     @return __call-lambda($fn, $args...);
   } @else {
-    @error "#{$fn} should be a function.";
+    @error "#{$fn} is not a function. Please make sure that #{$fn} is defined as a function before calling it.";
   }
 }
 
